@@ -10,12 +10,12 @@ public class sendInlineKeyBoardMessage {
 
 
     public sendInlineKeyBoardMessage(Long chatId) {
-        this.chatId=chatId;
+        this.chatId = chatId;
     }
 
     public SendMessage sendInlineKeyBoardMessage1() {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        List<List<InlineKeyboardButton>>rowList = new ArrayList<>();
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
         List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
 
         keyboardButtonsRow1.add((new InlineKeyboardButton().setText("notifications\n").setCallbackData("\"notifications\n\" is very technical")));

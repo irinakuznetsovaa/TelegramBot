@@ -17,31 +17,32 @@ public class TelegramBot extends TelegramLongPollingBot {
         super(botOptions);
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         ApiContextInitializer.init();
-        TelegramBotsApi telegram=new TelegramBotsApi();
-        try{
-            DefaultBotOptions botOptions= ApiContext.getInstance(DefaultBotOptions.class);
+        TelegramBotsApi telegram = new TelegramBotsApi();
+        try {
+            DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
             botOptions.setProxyHost("200.89.178.83");
             botOptions.setProxyPort(80);
             botOptions.setProxyType(DefaultBotOptions.ProxyType.HTTP);
             telegram.registerBot(new TelegramBot(botOptions));
-        }catch (TelegramApiRequestException e) {
+        } catch (TelegramApiRequestException e) {
             e.printStackTrace();
         }
 
 
-}
+    }
 
     @Override
     public void onUpdateReceived(Update update) {
 
         Message inMessage = update.getMessage();
         SendMessage outMessage = new SendMessage();
-        sendInlineKeyBoardMessage sendInlineKeyBoardMessage = new sendInlineKeyBoardMessage(update.getMessage().getChatId());
-        if (inMessage!=null && inMessage.hasText()) {
-                try {
-                    setButtons setButtons = new setButtons(outMessage);
+
+        if (inMessage != null && inMessage.hasText()) {
+            try {
+                setButtons setButtons = new setButtons(outMessage);
+                setButtons.setButtons();
                 switch (inMessage.getText()) {
                     case "/help":
                         outMessage.setChatId(inMessage.getChatId());
@@ -59,6 +60,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                                 "/start - начало, список команд\n");
                         break;
                     case "Кнопки":
+                        sendInlineKeyBoardMessage sendInlineKeyBoardMessage = new sendInlineKeyBoardMessage(update.getMessage().getChatId());
                         execute(sendInlineKeyBoardMessage.sendInlineKeyBoardMessage1());
                         break;
                     case "What is your name?":
@@ -71,10 +73,10 @@ public class TelegramBot extends TelegramLongPollingBot {
                         break;
                 }
                 execute(outMessage);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-        }else if(update.hasCallbackQuery()){
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+        } else if (update.hasCallbackQuery()) {
             String callbackId = update.getCallbackQuery().getId();
             AnswerCallbackQuery answerCallbackQuery = new AnswerCallbackQuery()
                     .setCallbackQueryId(callbackId)

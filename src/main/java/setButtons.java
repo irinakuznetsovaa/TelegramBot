@@ -9,10 +9,11 @@ import java.util.List;
 public class setButtons {
     public SendMessage sendMessage;
 
-    public setButtons(SendMessage sendMessage){
-        this.sendMessage=sendMessage;
+    public setButtons(SendMessage sendMessage) {
+        this.sendMessage = sendMessage;
     }
-    public void setButtons(){
+
+    public void setButtons() {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
         replyKeyboardMarkup.setSelective(true);
@@ -20,12 +21,13 @@ public class setButtons {
         replyKeyboardMarkup.setOneTimeKeyboard(false);
 
         List<KeyboardRow> keyboardRowList = new ArrayList<>();
-        KeyboardRow keyboardFirstRow=new KeyboardRow();
-
+        KeyboardRow keyboardFirstRow = new KeyboardRow();
+        KeyboardRow keyboardSecondRow = new KeyboardRow();
         keyboardFirstRow.add(new KeyboardButton("/start"));
         keyboardFirstRow.add(new KeyboardButton("/information"));
         keyboardFirstRow.add(new KeyboardButton("/help"));
-
+        keyboardSecondRow.add(new KeyboardButton("What is your name?"));
+        keyboardRowList.add(keyboardSecondRow);
         keyboardRowList.add(keyboardFirstRow);
         replyKeyboardMarkup.setKeyboard(keyboardRowList);
 
