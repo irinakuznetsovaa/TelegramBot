@@ -7,16 +7,9 @@ import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class TelegramBot extends TelegramLongPollingBot {
 
@@ -42,11 +35,12 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+
         Message inMessage = update.getMessage();
         SendMessage outMessage = new SendMessage();
             if (inMessage!=null && inMessage.hasText()) {
                 try {
-                    setButtons(outMessage);
+                    setButtons setButtons = new setButtons(outMessage);
                 switch (inMessage.getText()) {
                     case "/help":
                         outMessage.setChatId(inMessage.getChatId());
@@ -64,7 +58,8 @@ public class TelegramBot extends TelegramLongPollingBot {
                                 "/start - начало, список команд\n");
                         break;
                     case "Кнопки":
-                        execute(sendInlineKeyBoardMessage(update.getMessage().getChatId()));
+                        sendInlineKeyBoardMessage sendInlineKeyBoardMessage = new sendInlineKeyBoardMessage(update.getMessage().getChatId());
+                        execute(sendInlineKeyBoardMessage.sendInlineKeyBoardMessage1());
                         break;
                     case "What is your name?":
                         outMessage.setChatId(inMessage.getChatId());
@@ -92,38 +87,6 @@ public class TelegramBot extends TelegramLongPollingBot {
             }
         }
     }
-    public void setButtons(SendMessage sendMessage){
-        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        sendMessage.setReplyMarkup(replyKeyboardMarkup);
-        replyKeyboardMarkup.setSelective(true);
-        replyKeyboardMarkup.setResizeKeyboard(true);
-        replyKeyboardMarkup.setOneTimeKeyboard(false);
-
-        List<KeyboardRow> keyboardRowList = new ArrayList<>();
-        KeyboardRow keyboardFirstRow=new KeyboardRow();
-
-        keyboardFirstRow.add(new KeyboardButton("/start"));
-        keyboardFirstRow.add(new KeyboardButton("/information"));
-        keyboardFirstRow.add(new KeyboardButton("/help"));
-
-        keyboardRowList.add(keyboardFirstRow);
-        replyKeyboardMarkup.setKeyboard(keyboardRowList);
-
-    }
-
-    public static SendMessage sendInlineKeyBoardMessage(long chatId) {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        List<List<InlineKeyboardButton>>rowList = new ArrayList<>();
-        List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
-
-        keyboardButtonsRow1.add((new InlineKeyboardButton().setText("notifications\n").setCallbackData("\"notifications\n\" is very technical")));
-        keyboardButtonsRow1.add(new InlineKeyboardButton().setText("weatherSPb").setUrl("https://www.gismeteo.ru/weather-sankt-peterburg-4079/"));
-        rowList.add(keyboardButtonsRow1);
-
-        inlineKeyboardMarkup.setKeyboard(rowList);
-        return new SendMessage().setChatId(chatId).setText("InlineKeyBoard").setReplyMarkup(inlineKeyboardMarkup);
-
-}
 
     @Override
     public String getBotUsername() {
