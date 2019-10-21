@@ -38,7 +38,8 @@ public class TelegramBot extends TelegramLongPollingBot {
 
         Message inMessage = update.getMessage();
         SendMessage outMessage = new SendMessage();
-            if (inMessage!=null && inMessage.hasText()) {
+        sendInlineKeyBoardMessage sendInlineKeyBoardMessage = new sendInlineKeyBoardMessage(update.getMessage().getChatId());
+        if (inMessage!=null && inMessage.hasText()) {
                 try {
                     setButtons setButtons = new setButtons(outMessage);
                 switch (inMessage.getText()) {
@@ -58,7 +59,6 @@ public class TelegramBot extends TelegramLongPollingBot {
                                 "/start - начало, список команд\n");
                         break;
                     case "Кнопки":
-                        sendInlineKeyBoardMessage sendInlineKeyBoardMessage = new sendInlineKeyBoardMessage(update.getMessage().getChatId());
                         execute(sendInlineKeyBoardMessage.sendInlineKeyBoardMessage1());
                         break;
                     case "What is your name?":
