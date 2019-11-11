@@ -22,7 +22,7 @@ import java.util.List;
 
 
 public class TelegramBot extends TelegramLongPollingCommandBot {
-
+    public static final String TOKEN=System.getenv("VARIABLE_NAME");
     public TelegramBot(DefaultBotOptions botOptions) {
         super(botOptions, "IJustABot");
         register(new Command());
@@ -34,9 +34,9 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
         TelegramBotsApi telegram = new TelegramBotsApi();
         try {
             DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
-//            botOptions.setProxyHost("200.89.178.83");
-//            botOptions.setProxyPort(80);
-//            botOptions.setProxyType(DefaultBotOptions.ProxyType.HTTP);
+          botOptions.setProxyHost("209.90.63.108");
+            botOptions.setProxyPort(80);
+    botOptions.setProxyType(DefaultBotOptions.ProxyType.HTTP);
             telegram.registerBot(new TelegramBot(botOptions));
         } catch (TelegramApiRequestException e) {
             e.printStackTrace();
@@ -133,6 +133,6 @@ public class TelegramBot extends TelegramLongPollingCommandBot {
     }
     @Override
     public String getBotToken() {
-        return "965079337:AAGtZ64lq1sqD1xaQk_QofKGzCTY4121Gn4";
+        return TOKEN;
     }
 }
