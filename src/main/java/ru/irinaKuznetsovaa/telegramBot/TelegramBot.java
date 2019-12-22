@@ -21,118 +21,57 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TelegramBot extends TelegramLongPollingCommandBot {
-    public static final String TOKEN=System.getenv("VARIABLE_NAME");
-    public TelegramBot(DefaultBotOptions botOptions) {
-        super(botOptions, "IJustABot");
-        register(new Command());
-    }
+    public class TelegramBot extends TelegramLongPollingCommandBot {
 
+        public static final String USERNAME = "@Hockey_team_bot";
+        public static final String TOKEN = System.getenv("VARIABLE_NAME");
 
-    public static void main(String[] args) {
-        ApiContextInitializer.init();
-        TelegramBotsApi telegram = new TelegramBotsApi();
-        try {
-            DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
-          botOptions.setProxyHost("209.90.63.108");
-            botOptions.setProxyPort(80);
-    botOptions.setProxyType(DefaultBotOptions.ProxyType.HTTP);
-            telegram.registerBot(new TelegramBot(botOptions));
-        } catch (TelegramApiRequestException e) {
-            e.printStackTrace();
+        private long chat_id;
+
+        public TelegramBot(DefaultBotOptions botOptions) {
+            super(botOptions, USERNAME);
+
         }
 
-
-    }
-
-
-    @Override
-    public void processNonCommandUpdate(Update update) {
-        Message inMessage = update.getMessage();
-        SendMessage outMessage = new SendMessage();
-        if (inMessage != null && inMessage.hasText()) {
+        public static void main(String[] args) {
+            ApiContextInitializer.init();
+            TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
             try {
-
-                setButtons(outMessage);
-                switch (inMessage.getText()) {
-                    case "help":
-                        outMessage.setChatId(inMessage.getChatId());
-                        outMessage.setText("Чем я могу помочь ?");
-                        break;
-                    case "information":
-                        outMessage.setChatId(inMessage.getChatId());
-                        outMessage.setText("TelegramBot ,который копирует ваше сообщение ");
-                        break;
-                    case "Кнопки":
-                        execute(sendInlineKeyBoardMessage(update.getMessage().getChatId()));
-                        break;
-                    case "What is your name?":
-                        outMessage.setChatId(inMessage.getChatId());
-                        outMessage.setText("My name a JustABot!");
-                        break;
-                    default:
-                        outMessage.setChatId(inMessage.getChatId());
-                        outMessage.setText(inMessage.getText());
-                        break;
-                }
-                execute(outMessage);
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
-        } else if (update.hasCallbackQuery()) {
-            String callbackId = update.getCallbackQuery().getId();
-            AnswerCallbackQuery answerCallbackQuery = new AnswerCallbackQuery()
-                    .setCallbackQueryId(callbackId)
-                    .setText("Ok")
-                    .setShowAlert(true);
-            try {
-                execute(answerCallbackQuery);
+                DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
+                botOptions.setProxyHost("178.128.50.214");
+                botOptions.setProxyPort(8080);
+                botOptions.setProxyType(DefaultBotOptions.ProxyType.HTTP);
+                telegramBotsApi.registerBot(new TelegramBot(botOptions));
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }
         }
+
+
+        @Override
+        public void processNonCommandUpdate(Update update) {
+            update.getUpdateId();
+
+            SendMessage sendMessage = new SendMessage().setChatId(update.getMessage().getChatId());
+            chat_id = update.getMessage().getChatId();
+            sendMessage.setText(input(update.getMessage().getText()));
+
+            try {
+                execute(sendMessage);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public String input(String msg){
+            if(msg.contains("Hi") || msg.contains("Hello") || msg.contains("Привет")){
+                return "Привет фанатам! Я спротивный бот КХЛ. Если любишь хоккей, погнали!!!";
+            }
+            return "Не понял!";
+        }
+
+        @Override
+        public String getBotToken() {
+            return TOKEN;
+        }
     }
-    public static void setButtons(SendMessage sendMessage) {
-        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        sendMessage.setReplyMarkup(replyKeyboardMarkup);
-        replyKeyboardMarkup.setSelective(true);
-        replyKeyboardMarkup.setResizeKeyboard(true);
-        replyKeyboardMarkup.setOneTimeKeyboard(false);
-
-        List<KeyboardRow> keyboardRowList = new ArrayList<>();
-        KeyboardRow keyboardFirstRow = new KeyboardRow();
-        KeyboardRow keyboardSecondRow = new KeyboardRow();
-        keyboardFirstRow.add(new KeyboardButton("information"));
-        keyboardFirstRow.add(new KeyboardButton("help"));
-        keyboardSecondRow.add(new KeyboardButton("What is your name?"));
-        keyboardRowList.add(keyboardSecondRow);
-        keyboardRowList.add(keyboardFirstRow);
-        replyKeyboardMarkup.setKeyboard(keyboardRowList);
-
-    }
-    public static SendMessage sendInlineKeyBoardMessage(Long chatId) {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
-        List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
-
-        keyboardButtonsRow1.add(new InlineKeyboardButton()
-                .setText("notifications\n")
-                .setCallbackData("\"notifications\n\" is very technical"));
-        keyboardButtonsRow1.add(new InlineKeyboardButton()
-                .setText("weatherSPb")
-                .setUrl("https://www.gismeteo.ru/weather-sankt-peterburg-4079/"));
-        rowList.add(keyboardButtonsRow1);
-
-        inlineKeyboardMarkup.setKeyboard(rowList);
-        SendMessage message = new SendMessage()
-                .setChatId(chatId)
-                .setText("InlineKeyBoard")
-                .setReplyMarkup(inlineKeyboardMarkup);
-        return message;
-
-    }
-    @Override
-    public String getBotToken() {
-        return TOKEN;
-    }
-}
