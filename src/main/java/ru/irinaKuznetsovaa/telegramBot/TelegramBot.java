@@ -23,7 +23,7 @@ import java.util.List;
 
     public class TelegramBot extends TelegramLongPollingCommandBot {
 
-        public static final String USERNAME = "@Hockey_team_bot";
+        public static final String USERNAME = "@IJistABot";
         public static final String TOKEN = System.getenv("VARIABLE_NAME");
 
         private long chat_id;
