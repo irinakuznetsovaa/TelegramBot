@@ -1,12 +1,16 @@
 package ru.irinaKuznetsovaa.telegramBot;
 
 public class Assets {
+
     private String name;
     private String ticker;
+    private float currentPrice;
 
-    public Assets(String name1,String ticker1){
-        name=name1;
-        ticker=ticker1;
+
+    public Assets(String name,String ticker,float currentPrice){
+        this.name=name;
+        this.ticker=ticker;
+        this.currentPrice=currentPrice;
     }
 
     public String getName(){
@@ -15,5 +19,7 @@ public class Assets {
     public String getTicker(){
         return ticker;
     }
+    public float getCurrentPrice(){return currentPrice;}
+
 
 }
