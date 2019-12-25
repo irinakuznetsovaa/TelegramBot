@@ -21,5 +21,4 @@ public class Assets {
     }
     public float getCurrentPrice(){return currentPrice;}
 
-
 }

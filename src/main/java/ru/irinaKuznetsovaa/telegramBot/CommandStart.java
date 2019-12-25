@@ -26,9 +26,7 @@ public class CommandStart extends BotCommand {
 
         if (arguments != null && arguments.length > 0) {
 
-
             messageTextBuilder.append("\n");
-            messageTextBuilder.append("Thanks for your kind words:\n");
             messageTextBuilder.append(String.join(" ", arguments));
         }
         SendMessage answer = new SendMessage();
