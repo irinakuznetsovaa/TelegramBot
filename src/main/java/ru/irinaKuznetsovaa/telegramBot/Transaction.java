@@ -13,6 +13,7 @@ public class Transaction {
         this.assets = assets;
         this.count = count;
         this.data = data;
+
     }
 
     public String getStatus(){ return status;}

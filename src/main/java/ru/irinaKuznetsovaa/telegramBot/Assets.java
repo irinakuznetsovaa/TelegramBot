@@ -1,13 +1,15 @@
 package ru.irinaKuznetsovaa.telegramBot;
 
+import java.math.BigDecimal;
+
 public class Assets {
 
     private String name;
     private String ticker;
-    private float currentPrice;
+    private Double currentPrice;
 
 
-    public Assets(String name,String ticker,float currentPrice){
+    public Assets(String name,String ticker,Double currentPrice){
         this.name=name;
         this.ticker=ticker;
         this.currentPrice=currentPrice;
@@ -19,6 +21,6 @@ public class Assets {
     public String getTicker(){
         return ticker;
     }
-    public float getCurrentPrice(){return currentPrice;}
+    public Double getCurrentPrice(){return currentPrice;}
 
 }

@@ -18,11 +18,13 @@ public class CommandStart extends BotCommand {
         if (userName == null || userName.isEmpty()) {
             userName = user.getFirstName() + " " + user.getLastName();
         }
-        StringBuilder messageTextBuilder = new StringBuilder("Здравствуйте ! Это бот-инвестиционный портфель,что вы хотите сделать?\n" +
+        StringBuilder messageTextBuilder = new StringBuilder("Здравствуйте ! Это бот-инвестиционный портфель." +
+                "\n Доступные операции: \n" +
                 "Купить акции\n" +
                 "Продать акции\n" +
                 "Посмотреть список всех транзакций\n" +
-                "Состояние портфеля");
+                "Состояние портфеля\n\n" +
+                "Для того чтобы начать формировать ваш портфель введите свободные деньги:");
 
         if (arguments != null && arguments.length > 0) {
 
