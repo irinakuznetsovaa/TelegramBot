@@ -23,7 +23,7 @@ public class TelegramBot<userID> extends TelegramLongPollingCommandBot {
         private Double currentPrice;
         private Integer count;
         private String status;
-        private Double freeMoney= 12500.15;
+        private Double freeMoney;
         private Portfolio portfolio;
         public StateManager stateManager=new StateManager();
         private StateOfCurrentOperation state=new StateOfCurrentOperation();
