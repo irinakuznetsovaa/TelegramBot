@@ -1,80 +1,91 @@
 package ru.irinaKuznetsovaa.telegramBot;
 
 public class StateOfCurrentOperation {
+    private String status;
+    private String name;
+    private String tiker;
+    private Double currentPrice;
+    private Integer count;
+    private Double freeMoney;
 
-    private static final String FREE_MONEY="Формируем ваш портфель...Введите операции ";
-    private static final String BUY_ASSETS="Купить акции";
-    private static final String BUY_ASSETS_INDEX="Введите индекс бумаги которую хотите преобрести";
-    private static final String BUY_ASSETS_NAME="Введите наименование ценной бумаги которую хотите преобрести :";
-    private static final String BUY_ASSETS_COUNT="Введите количество приобретаемых акций :";
-    private static final String BUY_ASSETS_CURRENT_PRICE="Введите текущую цену за шт. руб. :";
-    private static final String BUY_ASSETS_OK="Сделка по преобретению акций совершена";
-    private static final String SELL_ASSETS="Продать акции";
-    private static final String SELL_ASSETS_INDEX="Введите индекс бумаги которую хотите продать";
-    private static final String SELL_ASSETS_NAME="Введите наименование ценной бумаги которую хотите продать :";
-    private static final String SELL_ASSETS_COUNT="Введите количество продаваемых акций :";
-    private static final String SELL_ASSETS_CURRENT_PRICE="Введите текущую цену продаваемых акций за шт. руб. :";
-    private static final String SELL_ASSETS_OK="Сделка по продаже акций совершена";
-    private static final String NEW="";
-    private static final String STATE_PORTFOLIO="Состояние портфеля";
-    private static final String SEE_TRANSACTION="Посмотреть список всех транзакций";
 
-    public static String getFreeMoney(){
-        return FREE_MONEY;
-    }
-    public static String getBuyAssets(){
-        return BUY_ASSETS;
-    }
-    public static String getBuyAssetsIndex(){
-        return BUY_ASSETS_INDEX;
-    }
-    public static String getBuyAssetsName(){
-        return BUY_ASSETS_NAME;
-    }
-    public static String getBuyAssetsCount(){
-        return BUY_ASSETS_COUNT;
-    }
-    public static String getBuyAssetsCurrentPrice(){
-        return BUY_ASSETS_CURRENT_PRICE;
+    public StateOfCurrentOperation(String status){
+        this.status=status;
     }
 
-    public static String getBuyAssetsOk() {
-        return BUY_ASSETS_OK;
+    public String  getStatus() {
+        return status;
     }
 
-    public static String getSellAssets() {
-        return SELL_ASSETS;
+    public Double getCurrentPrice() {
+        return currentPrice;
     }
 
-    public static String getSellAssetsCount() {
-        return SELL_ASSETS_COUNT;
+    public Double getFreeMoney() {
+        return freeMoney;
     }
 
-    public static String getSellAssetsCurrentPrice() {
-        return SELL_ASSETS_CURRENT_PRICE;
+    public Integer getCount() {
+        return count;
     }
 
-    public static String getSellAssetsIndex() {
-        return SELL_ASSETS_INDEX;
+    public String getName() {
+        return name;
     }
 
-    public static String getSellAssetsName() {
-        return SELL_ASSETS_NAME;
+    public String getTiker() {
+        return tiker;
     }
 
-    public static String getSellAssetsOk() {
-        return SELL_ASSETS_OK;
-    }
-    public static String getNew(){
-        return NEW;
-    }
+    public void setStatusTransaction(String StateOfCurrentOperation1){
+        StatusOfCurrentOperation statusOperation=new StatusOfCurrentOperation();
+        if (status.equals(statusOperation.FREE_MONEY)){
+            this.freeMoney=Double.valueOf(StateOfCurrentOperation1);
+            this.status=statusOperation.NEW;
+        }else if((status.equals(statusOperation.NEW))||(status.equals(statusOperation.BUY_ASSETS_OK))||
+                (status.equals(statusOperation.SELL_ASSETS_OK))||
+                (status.equals(statusOperation.STATE_PORTFOLIO))||(status.equals( statusOperation.SEE_TRANSACTION))) {
+            if (StateOfCurrentOperation1.equals(statusOperation.BUY_ASSETS)) {
+                this.status=statusOperation.BUY_ASSETS_INDEX;
+            }else if(StateOfCurrentOperation1.equals(statusOperation.SELL_ASSETS)){
+                this.status=statusOperation.SELL_ASSETS_INDEX;
+            }
+        }else if(status.equals(statusOperation.BUY_ASSETS_INDEX)){
+            this.status=statusOperation.BUY_ASSETS_NAME;
+            this.tiker=StateOfCurrentOperation1;
+        }else if(status.equals(statusOperation.BUY_ASSETS_NAME)){
+            this.status=statusOperation.BUY_ASSETS_COUNT;
+            this.name=StateOfCurrentOperation1;
+        }else if(status.equals(statusOperation.BUY_ASSETS_COUNT)){
+            this.status=statusOperation.BUY_ASSETS_CURRENT_PRICE;
+            this.count=Integer.valueOf(StateOfCurrentOperation1);
+        }else if(status.equals(statusOperation.BUY_ASSETS_CURRENT_PRICE)){
+            this.status=statusOperation.BUY_ASSETS_OK;
+            this.currentPrice=Double.parseDouble(StateOfCurrentOperation1);
+            this.freeMoney=freeMoney-(count*currentPrice);
+        }else if(status.equals(statusOperation.SELL_ASSETS_INDEX)){
+            this.status=statusOperation.SELL_ASSETS_NAME;
+            this.tiker=StateOfCurrentOperation1;
+        }else if(status.equals(statusOperation.SELL_ASSETS_NAME)){
+            this.status=statusOperation.SELL_ASSETS_COUNT;
+            this.name=StateOfCurrentOperation1;
+        }else if(status.equals(statusOperation.SELL_ASSETS_COUNT)){
+            this.status=statusOperation.SELL_ASSETS_CURRENT_PRICE;
+            this.count=Integer.valueOf(StateOfCurrentOperation1);
+        }else if(status.equals(statusOperation.SELL_ASSETS_CURRENT_PRICE)){
+            this.status=statusOperation.SELL_ASSETS_OK;
+            this.currentPrice=Double.parseDouble(StateOfCurrentOperation1);
+            this.freeMoney=freeMoney+(count*currentPrice);
+        }
 
-    public static String getStatePortfolio() {
-        return STATE_PORTFOLIO;
-    }
 
-    public static String getSeeTransaction() {
-        return SEE_TRANSACTION;
+
+
+
+
+
+
+
+
     }
 }
-
